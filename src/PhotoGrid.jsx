@@ -40,8 +40,6 @@ export default function PhotoGrid({ layoutKey = ACTIVE_LAYOUT }) {
               <div
                 key={photo.id}
                 style={{
-                  // Justified layouts: flex-grow fills the row without float overflow.
-                  // Simple layout: explicit pixel size so natural dimensions are preserved.
                   ...(row.useFlexGrow === false
                     ? { width: photo.renderedWidth, flexGrow: 0 }
                     : { flexGrow: photo.width / photo.height, flexBasis: 0 }
@@ -50,6 +48,7 @@ export default function PhotoGrid({ layoutKey = ACTIVE_LAYOUT }) {
                   height: photo.renderedHeight,
                   minWidth: 0,
                   backgroundColor: photo.color,
+                  position: 'relative',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -59,6 +58,41 @@ export default function PhotoGrid({ layoutKey = ACTIVE_LAYOUT }) {
                 }}
               >
                 {photo.id}
+
+                {/* Width label — top edge */}
+                <span style={{
+                  position: 'absolute',
+                  top: 4,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  fontSize: '10px',
+                  fontWeight: 'normal',
+                  color: 'rgba(0,0,0,0.55)',
+                  background: 'rgba(255,255,255,0.55)',
+                  padding: '0 3px',
+                  borderRadius: 2,
+                  whiteSpace: 'nowrap',
+                }}>
+                  {Math.round(photo.renderedWidth)}px
+                </span>
+
+                {/* Height label — right edge */}
+                <span style={{
+                  position: 'absolute',
+                  right: 4,
+                  top: '50%',
+                  transform: 'translateY(-50%) rotate(90deg)',
+                  transformOrigin: 'center center',
+                  fontSize: '10px',
+                  fontWeight: 'normal',
+                  color: 'rgba(0,0,0,0.55)',
+                  background: 'rgba(255,255,255,0.55)',
+                  padding: '0 3px',
+                  borderRadius: 2,
+                  whiteSpace: 'nowrap',
+                }}>
+                  {Math.round(photo.renderedHeight)}px
+                </span>
               </div>
             ))}
           </div>
