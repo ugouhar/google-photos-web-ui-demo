@@ -40,8 +40,14 @@ export default function PhotoGrid() {
               <div
                 key={photo.id}
                 style={{
-                  width: photo.renderedWidth,
+                  // Use flex-grow proportional to aspect ratio instead of
+                  // explicit pixel width — lets the browser distribute the
+                  // exact available space with no floating-point overflow.
+                  flexGrow: photo.width / photo.height,
+                  flexShrink: 0,
+                  flexBasis: 0,
                   height: photo.renderedHeight,
+                  minWidth: 0,
                   backgroundColor: photo.color,
                   display: 'flex',
                   alignItems: 'center',
@@ -49,7 +55,6 @@ export default function PhotoGrid() {
                   fontSize: '20px',
                   fontWeight: 'bold',
                   color: 'rgba(0,0,0,0.35)',
-                  flexShrink: 0,
                 }}
               >
                 {photo.id}
