@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:medium.com)",
+      "Bash(npm create vite@latest justified-layout -- --template react)",
+      "Bash(npm install)"
+    ]
+  }
+}
