@@ -3,9 +3,9 @@ import photos from './photos';
 import { layouts, ACTIVE_LAYOUT } from './layouts';
 
 const GAP = 4;
-const layout = layouts[ACTIVE_LAYOUT];
 
-export default function PhotoGrid() {
+export default function PhotoGrid({ layoutKey = ACTIVE_LAYOUT }) {
+  const layout = layouts[layoutKey];
   const containerRef = useRef(null);
   const [containerWidth, setContainerWidth] = useState(0);
 
@@ -40,12 +40,13 @@ export default function PhotoGrid() {
               <div
                 key={photo.id}
                 style={{
-                  // Use flex-grow proportional to aspect ratio instead of
-                  // explicit pixel width — lets the browser distribute the
-                  // exact available space with no floating-point overflow.
-                  flexGrow: photo.width / photo.height,
+                  // Justified layouts: flex-grow fills the row without float overflow.
+                  // Simple layout: explicit pixel size so natural dimensions are preserved.
+                  ...(row.useFlexGrow === false
+                    ? { width: photo.renderedWidth, flexGrow: 0 }
+                    : { flexGrow: photo.width / photo.height, flexBasis: 0 }
+                  ),
                   flexShrink: 0,
-                  flexBasis: 0,
                   height: photo.renderedHeight,
                   minWidth: 0,
                   backgroundColor: photo.color,

@@ -6,6 +6,7 @@ const simpleLayout = {
     return [
       {
         wrap: true,
+        useFlexGrow: false, // render at natural pixel dimensions, not scaled
         photos: photos.map((p) => ({
           ...p,
           renderedWidth: p.width,
